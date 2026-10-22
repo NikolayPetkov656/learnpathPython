@@ -1,0 +1,23 @@
+<nav class="navbar navbar-dark bg-primary">
+    <div class="container d-flex flex-wrap gap-3">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+            LearnPath
+        </a>
+
+        <div class="d-flex flex-wrap gap-3">
+            <a
+                class="text-white text-decoration-none"
+                href="{% url 'roadmaps:list' %}"
+            >
+                Roadmaps
+            </a>
+
+            <a
+                class="text-white text-decoration-none"
+                href="{% url 'roadmaps:create' %}"
+            >
+                Create roadmap
+            </a>
+        </div>
+    </div>
+</nav>

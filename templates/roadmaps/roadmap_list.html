@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Roadmaps | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Learning Roadmaps</h1>
+            <p class="text-secondary mb-0">
+                Organize your learning into clear, achievable steps.
+            </p>
+        </div>
+
+        <a
+            class="btn btn-primary"
+            href="{% url 'roadmaps:create' %}"
+        >
+            Create roadmap
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% for roadmap in roadmaps %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge text-bg-primary mb-3">
+                            {{ roadmap.get_difficulty_display }}
+                        </span>
+
+                        <h2 class="h5">
+                             <a
+                                class="text-decoration-none"
+                                href="{% url 'roadmaps:detail' roadmap.pk %}"
+                             >
+                                 {{ roadmap.title }}
+                             </a>
+                        </h2>
+
+                        <p class="text-secondary">
+                            {{ roadmap.description|truncatewords:25 }}
+                        </p>
+
+                        <p class="small text-secondary mb-0">
+                            Created {{ roadmap.created_at|date:"d M Y" }}
+                        </p>
+                    </div>
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <h2 class="h4">Your first roadmap starts here</h2>
+
+                        <p class="text-secondary">
+                            Create a learning path. You can add its steps
+                            and resources as we build the remaining features.
+                        </p>
+
+                        <a
+                            class="btn btn-primary"
+                            href="{% url 'roadmaps:create' %}"
+                        >
+                            Create your first roadmap
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

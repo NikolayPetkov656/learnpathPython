@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Create Roadmap | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <a
+                class="text-decoration-none"
+                href="{% url 'roadmaps:list' %}"
+            >
+                &larr; Back to roadmaps
+            </a>
+
+            <div class="card border-0 shadow-sm mt-3">
+                <div class="card-body p-4">
+                    <h1 class="h3">Create a roadmap</h1>
+
+                    <p class="text-secondary">
+                        Define your learning goal and choose its difficulty.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% include "partials/form_fields.html" %}
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" type="submit">
+                                Save roadmap
+                            </button>
+
+                            <a
+                                class="btn btn-outline-secondary"
+                                href="{% url 'roadmaps:list' %}"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

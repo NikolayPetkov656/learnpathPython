@@ -1,0 +1,20 @@
+# Local Python environment
+.venv/
+
+# Generated Python files
+__pycache__/
+*.py[cod]
+
+# Local SQLite database
+db.sqlite3
+db.sqlite3-journal
+
+# PyCharm settings
+.idea/
+
+# Local environment variables and secrets
+.env
+.env.*
+
+# Collected static files
+staticfiles/
