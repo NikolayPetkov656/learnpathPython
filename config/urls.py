@@ -31,4 +31,6 @@ urlpatterns = [
         name="home",
     ),
     path("roadmaps/", include("roadmaps.urls")),
+    path("steps/", include("steps.urls")),
+    path("resources/", include("resources.urls")),
 ]

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ step.title }} | LearnPath{% endblock %}
+
+{% block content %}
+    <a
+        class="text-decoration-none"
+        href="{% url 'roadmaps:detail' step.roadmap_id %}"
+    >
+        &larr; Back to {{ step.roadmap.title }}
+    </a>
+
+    <article class="card border-0 shadow-sm mt-3">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between gap-3">
+                <div>
+                    <p class="text-secondary mb-1">
+                        Step {{ step.position }}
+                    </p>
+
+                    <h1 class="h2">{{ step.title }}</h1>
+
+                    {% if step.is_completed %}
+                        <span class="badge text-bg-success">
+                            Completed
+                        </span>
+                    {% else %}
+                        <span class="badge text-bg-secondary">
+                            To do
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex align-items-start gap-2">
+                    <a
+                        class="btn btn-outline-primary"
+                        href="{% url 'steps:edit' step.pk %}"
+                    >
+                        Edit step
+                    </a>
+
+                    <a
+                        class="btn btn-outline-danger"
+                        href="{% url 'steps:delete' step.pk %}"
+                    >
+                        Delete
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                {{ step.description|linebreaks }}
+            </div>
+        </div>
+    </article>
+
+    <section class="mt-4" aria-labelledby="resources-heading">
+        <h2 class="h4" id="resources-heading">Learning resources</h2>
+
+        <div class="list-group">
+            {% for resource in step.resources.all %}
+                <a
+                    class="list-group-item list-group-item-action"
+                    href="{{ resource.url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <div class="d-flex flex-wrap justify-content-between gap-2">
+                        <span>{{ resource.title }}</span>
+                        <span class="badge text-bg-light">
+                            {{ resource.get_resource_type_display }}
+                        </span>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="list-group-item text-secondary">
+                    No resources are attached to this step yet.
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

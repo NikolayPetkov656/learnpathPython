@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ resource.title }} | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3">Delete this resource?</h1>
+
+                    <p>
+                        You are about to permanently delete
+                        <strong>{{ resource.title }}</strong>.
+                    </p>
+
+                    <div class="alert alert-warning">
+                        This resource will be removed from every linked step.
+                        The steps and roadmaps themselves will remain.
+                        This action cannot be undone.
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-danger" type="submit">
+                                Yes, delete resource
+                            </button>
+
+                            <a
+                                class="btn btn-outline-secondary"
+                                href="{% url 'resources:detail' resource.pk %}"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

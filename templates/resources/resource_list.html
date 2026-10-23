@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Library | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Resource library</h1>
+            <p class="text-secondary mb-0">
+                Collect useful learning links and reuse them across steps.
+            </p>
+        </div>
+
+        <a
+            class="btn btn-primary"
+            href="{% url 'resources:create' %}"
+        >
+            Add resource
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% for resource in resources %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <span class="badge text-bg-primary mb-3">
+                            {{ resource.get_resource_type_display }}
+                        </span>
+
+                        <h2 class="h5">
+                            <a
+                                class="text-decoration-none"
+                                href="{% url 'resources:detail' resource.pk %}"
+                            >
+                                {{ resource.title }}
+                            </a>
+                        </h2>
+
+                        <p class="text-secondary">
+                            {{ resource.description|default:"No additional notes."|truncatewords:25 }}
+                        </p>
+
+                        <a
+                            class="btn btn-outline-primary btn-sm"
+                            href="{{ resource.url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open website
+                        </a>
+                    </div>
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <h2 class="h4">Your resource library is empty</h2>
+
+                        <p class="text-secondary">
+                            Add a useful link, then select it when creating
+                            or editing a learning step.
+                        </p>
+
+                        <a
+                            class="btn btn-primary"
+                            href="{% url 'resources:create' %}"
+                        >
+                            Add your first resource
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

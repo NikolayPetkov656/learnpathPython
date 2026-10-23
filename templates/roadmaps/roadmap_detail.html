@@ -70,14 +70,28 @@
     </div>
 
     <section class="mt-4" aria-labelledby="steps-heading">
-        <h2 class="h4 mb-3" id="steps-heading">Learning steps</h2>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="h4 mb-0" id="steps-heading">Learning steps</h2>
+
+            <a
+                 class="btn btn-primary"
+                 href="{% url 'steps:create' %}?roadmap={{ roadmap.pk }}"
+            >
+               Add step
+             </a>
+         </div>
 
         {% for step in roadmap.steps.all %}
             <article class="card border-0 shadow-sm mb-3">
                 <div class="card-body">
                     <div class="d-flex justify-content-between gap-3">
                         <h3 class="h5">
-                            {{ step.position }}. {{ step.title }}
+                            <a
+                               class="text-decoration-none"
+                               href="{% url 'steps:detail' step.pk %}"
+                            >
+                               {{ step.position }}. {{ step.title }}
+                            </a>
                         </h3>
 
                         {% if step.is_completed %}

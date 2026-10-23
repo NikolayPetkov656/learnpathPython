@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Add Step | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3">Add a learning step</h1>
+
+                    <p class="text-secondary">
+                        Break your learning goal into a manageable activity.
+                    </p>
+
+                    <div class="alert alert-info">
+                        Need another learning link?
+                        <a href="{% url 'resources:list' %}">
+                           Open the resource library
+                         </a>.
+                        Save any changes on this page before leaving.
+                    </div>
+
+                        {% csrf_token %}
+
+                        {% include "partials/form_fields.html" %}
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" type="submit">
+                                Create step
+                            </button>
+
+                            <a
+                                class="btn btn-outline-secondary"
+                                href="{% url 'roadmaps:list' %}"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

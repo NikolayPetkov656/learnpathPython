@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Add Resource | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <a
+                class="text-decoration-none"
+                href="{% url 'resources:list' %}"
+            >
+                &larr; Back to resource library
+            </a>
+
+            <div class="card border-0 shadow-sm mt-3">
+                <div class="card-body p-4">
+                    <h1 class="h3">Add a learning resource</h1>
+
+                    <p class="text-secondary">
+                        Save a useful link to attach to your learning steps.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% include "partials/form_fields.html" %}
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" type="submit">
+                                Save resource
+                            </button>
+
+                            <a
+                                class="btn btn-outline-secondary"
+                                href="{% url 'resources:list' %}"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

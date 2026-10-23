@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource.title }} | LearnPath{% endblock %}
+
+{% block content %}
+    <a
+        class="text-decoration-none"
+        href="{% url 'resources:list' %}"
+    >
+        &larr; Back to resource library
+    </a>
+
+    <article class="card border-0 shadow-sm mt-3">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between gap-3">
+                <div>
+                    <span class="badge text-bg-primary mb-2">
+                        {{ resource.get_resource_type_display }}
+                    </span>
+
+                    <h1 class="h2">{{ resource.title }}</h1>
+                </div>
+
+                <div class="d-flex align-items-start gap-2">
+                    <a
+                        class="btn btn-outline-primary"
+                        href="{% url 'resources:edit' resource.pk %}"
+                    >
+                        Edit
+                    </a>
+
+                    <a
+                        class="btn btn-outline-danger"
+                        href="{% url 'resources:delete' resource.pk %}"
+                    >
+                        Delete
+                    </a>
+                </div>
+            </div>
+
+            {% if resource.description %}
+                <div class="mt-3">
+                    {{ resource.description|linebreaks }}
+                </div>
+            {% else %}
+                <p class="text-secondary mt-3">
+                    No additional notes.
+                </p>
+            {% endif %}
+
+            <p class="small text-secondary">
+                Added {{ resource.created_at|date:"d M Y" }}
+            </p>
+
+            <a
+                class="btn btn-primary"
+                href="{{ resource.url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Open learning resource
+            </a>
+        </div>
+    </article>
+
+    <section class="mt-4" aria-labelledby="linked-steps-heading">
+        <h2 class="h4" id="linked-steps-heading">Used in these steps</h2>
+
+        <div class="list-group">
+            {% for step in resource.steps.all %}
+                <a
+                    class="list-group-item list-group-item-action"
+                    href="{% url 'steps:detail' step.pk %}"
+                >
+                    {{ step.title }}
+                    <span class="text-secondary">
+                        — {{ step.roadmap.title }}
+                    </span>
+                </a>
+            {% empty %}
+                <div class="list-group-item text-secondary">
+                    This resource is not attached to any steps yet.
+                    Open a roadmap, edit one of its steps, and select
+                    this resource.
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
