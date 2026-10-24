@@ -14,23 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
 
 from django.urls import include, path
-from django.views.generic import RedirectView
+
+from roadmaps.views import DashboardView, not_found_preview
 
 
 urlpatterns = [
-    path(
-        "",
-        RedirectView.as_view(
-            pattern_name="roadmaps:list",
-            permanent=False,
-        ),
-        name="home",
-    ),
+    path("", DashboardView.as_view(), name="home"),
     path("roadmaps/", include("roadmaps.urls")),
     path("steps/", include("steps.urls")),
     path("resources/", include("resources.urls")),
+    path("help/page-not-found/", not_found_preview, name="not-found-preview"),
 ]

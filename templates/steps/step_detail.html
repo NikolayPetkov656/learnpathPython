@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load learning_tags %}
+
 {% block title %}{{ step.title }} | LearnPath{% endblock %}
 
 {% block content %}
@@ -22,11 +24,11 @@
 
                     {% if step.is_completed %}
                         <span class="badge text-bg-success">
-                            Completed
+                            {{ step.is_completed|completion_label }}
                         </span>
                     {% else %}
                         <span class="badge text-bg-secondary">
-                            To do
+                            {{ step.is_completed|completion_label }}
                         </span>
                     {% endif %}
                 </div>

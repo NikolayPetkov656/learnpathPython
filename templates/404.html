@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="card border-0 shadow-sm">
+        <div class="card-body text-center py-5">
+            <p class="display-3 text-primary">404</p>
+            <h1 class="h3">This learning path leads nowhere</h1>
+
+            <p class="text-secondary">
+                The page may have been removed, or its address may be incorrect.
+            </p>
+
+            <a class="btn btn-primary" href="{% url 'home' %}">
+                Return to dashboard
+            </a>
+
+            <a
+                class="btn btn-outline-primary"
+                href="{% url 'roadmaps:list' %}"
+            >
+                Browse roadmaps
+            </a>
+        </div>
+    </div>
+{% endblock %}

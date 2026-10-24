@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | LearnPath{% endblock %}
+
+{% block content %}
+    <div class="mb-4">
+        <h1 class="h2">Your learning workspace</h1>
+        <p class="text-secondary">
+            Build roadmaps, organize resources, and track shared progress.
+        </p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <p class="display-6 mb-1">{{ roadmap_count }}</p>
+                    <a href="{% url 'roadmaps:list' %}">Roadmaps</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <p class="display-6 mb-1">{{ completed_steps }}</p>
+                    <p class="text-secondary mb-0">Completed steps</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <p class="display-6 mb-1">{{ remaining_steps }}</p>
+                    <p class="text-secondary mb-0">Remaining steps</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <p class="display-6 mb-1">{{ resource_count }}</p>
+                    <a href="{% url 'resources:list' %}">Resources</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="h5">Overall progress</h2>
+
+            <p class="text-secondary">
+                {{ completed_steps }} of {{ total_steps }} steps completed
+                — {{ overall_progress }}%
+            </p>
+
+            <div
+                class="progress"
+                role="progressbar"
+                aria-label="Overall learning progress"
+                aria-valuenow="{{ overall_progress }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+                <div
+                    class="progress-bar bg-success"
+                    style="width: {{ overall_progress }}%;"
+                ></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row g-4">
+        <section class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h4">Recently created roadmaps</h2>
+
+                    <div class="list-group list-group-flush">
+                        {% for roadmap in recent_roadmaps %}
+                            <a
+                                class="list-group-item list-group-item-action px-0"
+                                href="{% url 'roadmaps:detail' roadmap.pk %}"
+                            >
+                                {{ roadmap.title }}
+                                <span class="text-secondary">
+                                    — {{ roadmap.get_difficulty_display }}
+                                </span>
+                            </a>
+                        {% empty %}
+                            <p class="text-secondary">
+                                No roadmaps yet. Start with a learning goal.
+                            </p>
+                        {% endfor %}
+                    </div>
+
+                    <a
+                        class="btn btn-primary mt-3"
+                        href="{% url 'roadmaps:create' %}"
+                    >
+                        Create roadmap
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h2 class="h4">Next learning steps</h2>
+
+                    <div class="list-group list-group-flush">
+                        {% for step in pending_steps %}
+                            <a
+                                class="list-group-item list-group-item-action px-0"
+                                href="{% url 'steps:detail' step.pk %}"
+                            >
+                                {{ step.title }}
+                                <span class="text-secondary">
+                                    — {{ step.roadmap.title }}
+                                </span>
+                            </a>
+                        {% empty %}
+                            <p class="text-secondary">
+                                No pending steps. Add steps to a roadmap
+                                or review your completed learning.
+                            </p>
+                        {% endfor %}
+                    </div>
+
+                    <a
+                        class="btn btn-outline-primary mt-3"
+                        href="{% url 'roadmaps:list' %}"
+                    >
+                        Browse roadmaps
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

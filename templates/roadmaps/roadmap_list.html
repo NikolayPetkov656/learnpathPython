@@ -6,6 +6,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <h1 class="h2 mb-1">Learning Roadmaps</h1>
+
             <p class="text-secondary mb-0">
                 Organize your learning into clear, achievable steps.
             </p>
@@ -19,6 +20,99 @@
         </a>
     </div>
 
+    <form method="get" class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label" for="roadmap-search">
+                        Search roadmaps
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="roadmap-search"
+                        type="search"
+                        name="q"
+                        value="{{ search_query }}"
+                        placeholder="Search titles and descriptions"
+                    >
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="difficulty-filter">
+                        Difficulty
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="difficulty-filter"
+                        name="difficulty"
+                    >
+                        <option value="">All levels</option>
+
+                        {% for value, label in difficulty_choices %}
+                            <option
+                                value="{{ value }}"
+                                {% if selected_difficulty == value %}selected{% endif %}
+                            >
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label" for="sort-order">
+                        Sort by
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="sort-order"
+                        name="sort"
+                    >
+                        <option
+                            value="title"
+                            {% if selected_sort == "title" %}selected{% endif %}
+                        >
+                            Title
+                        </option>
+
+                        <option
+                            value="newest"
+                            {% if selected_sort == "newest" %}selected{% endif %}
+                        >
+                            Newest
+                        </option>
+
+                        <option
+                            value="oldest"
+                            {% if selected_sort == "oldest" %}selected{% endif %}
+                        >
+                            Oldest
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button
+                        class="btn btn-primary w-100"
+                        type="submit"
+                    >
+                        Apply
+                    </button>
+                </div>
+            </div>
+
+            <a
+                class="d-inline-block mt-3"
+                href="{% url 'roadmaps:list' %}"
+            >
+                Clear filters
+            </a>
+        </div>
+    </form>
+
     <div class="row g-4">
         {% for roadmap in roadmaps %}
             <div class="col-md-6 col-lg-4">
@@ -29,12 +123,12 @@
                         </span>
 
                         <h2 class="h5">
-                             <a
+                            <a
                                 class="text-decoration-none"
                                 href="{% url 'roadmaps:detail' roadmap.pk %}"
-                             >
-                                 {{ roadmap.title }}
-                             </a>
+                            >
+                                {{ roadmap.title }}
+                            </a>
                         </h2>
 
                         <p class="text-secondary">
@@ -51,19 +145,45 @@
             <div class="col-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center py-5">
-                        <h2 class="h4">Your first roadmap starts here</h2>
+                        {% if search_query or selected_difficulty %}
+                            <h2 class="h4">No matching roadmaps</h2>
 
-                        <p class="text-secondary">
-                            Create a learning path. You can add its steps
-                            and resources as we build the remaining features.
-                        </p>
+                            <p class="text-secondary">
+                                Try another search or clear the filters.
+                            </p>
 
-                        <a
-                            class="btn btn-primary"
-                            href="{% url 'roadmaps:create' %}"
-                        >
-                            Create your first roadmap
-                        </a>
+                            <div class="d-flex flex-wrap justify-content-center gap-2">
+                                <a
+                                    class="btn btn-outline-primary"
+                                    href="{% url 'roadmaps:list' %}"
+                                >
+                                    Clear filters
+                                </a>
+
+                                <a
+                                    class="btn btn-primary"
+                                    href="{% url 'roadmaps:create' %}"
+                                >
+                                    Create roadmap
+                                </a>
+                            </div>
+                        {% else %}
+                            <h2 class="h4">
+                                Your first roadmap starts here
+                            </h2>
+
+                            <p class="text-secondary">
+                                Create a learning path, then add steps
+                                and resources.
+                            </p>
+
+                            <a
+                                class="btn btn-primary"
+                                href="{% url 'roadmaps:create' %}"
+                            >
+                                Create your first roadmap
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

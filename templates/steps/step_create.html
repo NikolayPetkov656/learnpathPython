@@ -16,17 +16,28 @@
                     <div class="alert alert-info">
                         Need another learning link?
                         <a href="{% url 'resources:list' %}">
-                           Open the resource library
-                         </a>.
-                        Save any changes on this page before leaving.
+                            Open the resource library
+                        </a>.
+                        Save any changes before leaving this page.
                     </div>
 
+                    <form method="post">
                         {% csrf_token %}
 
-                        {% include "partials/form_fields.html" %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <p>Please correct these errors:</p>
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
 
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-primary" type="submit">
+                        {{ form.as_p }}
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button
+                                class="btn btn-primary"
+                                type="submit"
+                            >
                                 Create step
                             </button>
 
